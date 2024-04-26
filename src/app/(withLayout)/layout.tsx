@@ -1,19 +1,31 @@
 "use client";
-import React from 'react';
-
-import { Layout } from 'antd';
-import Sidebar from '@/components/ui/Sidebar';
-import Contents from '@/components/ui/Content';
-
+import Contents from "@/components/ui/Content";
+import SideBar from "@/components/ui/Sidebar";
+import { isLoggedIn } from "@/services/auth.service";
+import { Layout } from "antd";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode; }) => {
+    const userLoggedIn = isLoggedIn();
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!userLoggedIn) {
+            router.push("/login");
+        }
+        setIsLoading(true);
+    }, [router, isLoading, userLoggedIn]);
+
+    if (!isLoading) {
+        return <h1>Loading......</h1>;
+    }
 
     return (
         <Layout hasSider>
-            <Sidebar />
-            <Contents>
-                {children}
-            </Contents>
+            <SideBar />
+            <Contents>{children}</Contents>
         </Layout>
     );
 };
