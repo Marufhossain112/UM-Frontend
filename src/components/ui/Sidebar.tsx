@@ -2,13 +2,13 @@
 import { Menu } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { useState } from 'react';
-import { USER_ROLE } from '@/constants/role';
 import { sidebarItems } from '@/constants/sidebarItems';
+import { getUserInfo } from '@/services/auth.service';
 
 
 const Sidebar = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const role = USER_ROLE.STUDENT;
+    const { role } = getUserInfo() as any;
 
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width={280}

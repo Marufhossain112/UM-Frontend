@@ -1,81 +1,16 @@
-"use client";
-import { Button, Col, Input, Row } from "antd";
-import loginImage from "../../assets/Sign up-rafiki.png";
-import Image from "next/image";
-import Form from "@/components/Forms/Form";
-import FormInput from "@/components/Forms/FormInput";
-import { SubmitHandler } from "react-hook-form";
-import { useUserLoginMutation } from "@/redux/api/authApi";
-import { isLoggedIn, storeUserInfo } from "@/services/auth.service";
-import { useRouter } from "next/navigation";
+import LoginPage from "@/components/Login/Login";
+import { Metadata } from "next";
 
-type FormValues = {
-    id: string;
-    password: string;
+export const metadata: Metadata = {
+    title: "UMS | Login",
 };
 
-const LoginPage = () => {
-    const router = useRouter();
-    // console.log("is user loggedin🚀", isLoggedIn());
-    const [userLogin] = useUserLoginMutation();
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        try {
-            const loginResponse = await userLogin({ ...data }).unwrap();
-            // console.log("loginResponse👉", loginResponse);
-            // return
-            storeUserInfo({ accessToken: loginResponse?.accessToken });
-            if (loginResponse?.accessToken) {
-                router.push('/profile');
-            }
-            // console.log(loginResponse);
-        } catch (err) {
-            console.log("🀄 see error", err);
-        }
-    };
+const Login = () => {
     return (
-        <Row
-            justify="center"
-            align="middle"
-            style={{
-                minHeight: "100vh",
-            }}
-        >
-            <Col sm={12} md={16} lg={10}>
-                <Image src={loginImage} width={500} alt="login image" />
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-                <h1
-                    style={{
-                        margin: "15px 0px",
-                    }}
-                >
-                    First login your account
-                </h1>
-                <div>
-                    <Form submitHandler={onSubmit}>
-                        <div>
-                            <FormInput name="id" type="text" size="large" label="User Id" />
-                        </div>
-                        <div
-                            style={{
-                                margin: "15px 0px",
-                            }}
-                        >
-                            <FormInput
-                                name="password"
-                                type="password"
-                                size="large"
-                                label="User Password"
-                            />
-                        </div>
-                        <Button type="primary" htmlType="submit">
-                            Login
-                        </Button>
-                    </Form>
-                </div>
-            </Col>
-        </Row>
+        <>
+            <LoginPage />
+        </>
     );
 };
 
-export default LoginPage;
+export default Login;
