@@ -17,7 +17,6 @@ const Header = () => {
                 <Button onClick={handleLogout} style={{ border: 'none', color: "red" }}>Logout</Button>
             ),
         },
-
     ];
     return (
         <AntHeader>
